@@ -1,4 +1,4 @@
-const channelID = "SEU_CHANNEL_ID";
+const channelID = "3375309";
 
 const umidadeTexto =
 document.getElementById("umidade");
@@ -55,7 +55,7 @@ async function buscarDados() {
   try {
 
     const resposta = await fetch(
-      `https://api.thingspeak.com/channels/${channelID}/fields/1.json?results=10`
+      `https://api.thingspeak.com/channels/${channelID}/fields/1.json?api_key=G0AHWT8BYB70SNTT&results=2`
     );
 
     const json = await resposta.json();
