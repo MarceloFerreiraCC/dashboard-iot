@@ -20,19 +20,45 @@
 
   <div class="container">
 
-    <h1>🌱 Monitoramento IoT</h1>
+    <header>
 
-    <div class="card">
+      <h1>🌱 Monitoramento IoT</h1>
 
-      <h2>Umidade do Solo</h2>
+      <p>
+        Sensor de Umidade do Solo
+      </p>
 
-      <div id="umidade">0%</div>
+    </header>
 
-      <div id="status">Conectando...</div>
+    <section class="cards">
 
-    </div>
+      <div class="card">
 
-    <canvas id="grafico"></canvas>
+        <h2>Umidade</h2>
+
+        <div id="umidade">
+          0%
+        </div>
+
+      </div>
+
+      <div class="card">
+
+        <h2>Status</h2>
+
+        <div id="status">
+          Conectando...
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="grafico-container">
+
+      <canvas id="grafico"></canvas>
+
+    </section>
 
   </div>
 

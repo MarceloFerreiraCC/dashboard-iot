@@ -1,13 +1,13 @@
-const channelID = "3375309";
+const channelID = "SEU_CHANNEL_ID";
 
 const umidadeTexto =
-  document.getElementById("umidade");
+document.getElementById("umidade");
 
 const statusTexto =
-  document.getElementById("status");
+document.getElementById("status");
 
 const ctx =
-  document.getElementById("grafico");
+document.getElementById("grafico");
 
 const dados = {
 
@@ -19,7 +19,9 @@ const dados = {
 
     data: [],
 
-    borderWidth: 2
+    borderWidth: 3,
+
+    tension: 0.3
 
   }]
 };
@@ -33,6 +35,8 @@ const grafico = new Chart(ctx, {
   options: {
 
     responsive: true,
+
+    maintainAspectRatio: false,
 
     scales: {
 
@@ -51,7 +55,7 @@ async function buscarDados() {
   try {
 
     const resposta = await fetch(
-      `https://api.thingspeak.com/channels/${channelID}/fields/1.json?api_key=G0AHWT8BYB70SNTT&results=2`
+      `https://api.thingspeak.com/channels/${channelID}/fields/1.json?results=10`
     );
 
     const json = await resposta.json();
@@ -63,16 +67,16 @@ async function buscarDados() {
 
     feeds.forEach(feed => {
 
-      let umidade =
+      let valor =
         parseInt(feed.field1);
 
-      let horario =
+      let hora =
         new Date(feed.created_at)
         .toLocaleTimeString();
 
-      dados.labels.push(horario);
+      dados.labels.push(hora);
 
-      dados.datasets[0].data.push(umidade);
+      dados.datasets[0].data.push(valor);
     });
 
     const ultimo =
@@ -83,22 +87,21 @@ async function buscarDados() {
     umidadeTexto.innerHTML =
       ultimo + "%";
 
-    // Status inteligente
     if (ultimo < 30) {
 
       statusTexto.innerHTML =
         "⚠️ Solo Seco";
 
       statusTexto.style.color =
-        "red";
+        "#ef4444";
 
     } else if (ultimo < 60) {
 
       statusTexto.innerHTML =
-        "🌤️ Umidade Moderada";
+        "🌤️ Moderado";
 
       statusTexto.style.color =
-        "orange";
+        "#f59e0b";
 
     } else {
 
@@ -106,7 +109,7 @@ async function buscarDados() {
         "💧 Solo Úmido";
 
       statusTexto.style.color =
-        "lightgreen";
+        "#22c55e";
     }
 
     grafico.update();
@@ -114,7 +117,7 @@ async function buscarDados() {
   } catch (erro) {
 
     statusTexto.innerHTML =
-      "Erro ao conectar";
+      "Erro conexão";
 
     statusTexto.style.color =
       "red";
@@ -123,7 +126,6 @@ async function buscarDados() {
   }
 }
 
-// Atualiza automaticamente
 buscarDados();
 
 setInterval(buscarDados, 15000);
